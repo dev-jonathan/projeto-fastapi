@@ -1,0 +1,9 @@
+tmp
+tmp/*
+pgdata
+pgdata/*
+*.log
+.env
+__pycache__
+venv/
+.pytest_cache
