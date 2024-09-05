@@ -38,5 +38,5 @@ jobs:
 
       - name: Run pytest
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.POSTGRES_DB }}
         run: pytest teste.py
