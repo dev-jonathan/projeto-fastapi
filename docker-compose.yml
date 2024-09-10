@@ -24,14 +24,14 @@ services:
     image: postgres:12.19
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       DB_HOST: ${DB_HOST}
     volumes:
       - pg-data:/var/lib/postgresql/data
 
-    # POSTGRES_HOST_AUTH_METHOD: "trust"
+    POSTGRES_HOST_AUTH_METHOD: "trust"
     # PGHBA_CONF_CONTENT: |
     #   host    all             all             0.0.0.0/0               md5
     # - ./pgdata:/var/lib/postgresql/data
