@@ -1,7 +1,9 @@
 name: Build and Deploy
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   job1:
@@ -13,31 +15,32 @@ jobs:
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.DB_NAME }}
-          DB_HOST: ${{ secrets.DB_HOST }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          DB_HOST: 127.0.0.1
         ports:
           - 5432:5432
 
     steps:
-      - name: pulling git repo
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: installing python
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.11.2"
+          python-version: '3.11'
 
-      - name: update pip
-        run: python -m pip install --upgrade pip
-
-      - name: install dependencies
-        run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Wait for PostgreSQL to be ready
-        run: sleep 15
+        run: |
+          until pg_isready -h 127.0.0.1 -p 5432 -U ${{ secrets.POSTGRES_USER }}; do
+            sleep 1
+          done
 
-      - name: Run pytest
+      - name: Run tests
         env:
-          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.DB_HOST }}/${{ secrets.DB_NAME }}
+          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@127.0.0.1:5432/${{ secrets.POSTGRES_DB }}
         run: pytest teste.py
- 
