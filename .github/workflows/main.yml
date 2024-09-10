@@ -16,9 +16,11 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          DB_HOST: 127.0.0.1
+          POSTGRES_HOST: 127.0.0.1
         ports:
           - 5432:5432
+        options: > 
+          --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Checkout repository
@@ -35,10 +37,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U ${{ secrets.POSTGRES_USER }}; do
-            sleep 1
-          done
+        run: sleep 15  # Substitua por um sleep simples para garantir que o banco de dados esteja pronto
 
       - name: Run tests
         env:
