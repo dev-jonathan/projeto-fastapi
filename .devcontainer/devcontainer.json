@@ -2,7 +2,7 @@
     "name": "Meu Projeto FastAPI",
     "dockerComposeFile": "../docker-compose.yaml",
     "service": "app",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/workspace/projeto-fastapi",
     "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
