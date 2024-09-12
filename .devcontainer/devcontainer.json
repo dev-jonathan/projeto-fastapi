@@ -2,7 +2,7 @@
   "name": "Meu Projeto FastAPI",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace/projeto-fastapi",
+  "workspaceFolder": "/workspace",
   "forwardPorts": [5050],
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
